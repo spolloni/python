@@ -102,7 +102,6 @@ cdef class PyPipeline:
             n_arrays = len(arrays)
 
         cdef vector[Array*] c_arrays;
-        cdef np.ndarray np_array;
         cdef Array* a
 
         if arrays is not None:
@@ -111,13 +110,12 @@ cdef class PyPipeline:
                 c_arrays.push_back(a)
 
             self.thisptr = new Pipeline(json.encode('UTF-8'), c_arrays)
+            del c_arrays
+            del a
         else:
             self.thisptr = new Pipeline(json.encode('UTF-8'))
 
     def __dealloc__(self):
-        del a
-        del np_array
-        del c_arrays
         del self.thisptr
 
     property pipeline:

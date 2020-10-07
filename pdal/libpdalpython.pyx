@@ -109,6 +109,7 @@ cdef class PyPipeline:
             for array in arrays:
                 a = new Array(array)
                 c_arrays.push_back(a)
+                del a
 
             self.thisptr = new Pipeline(json.encode('UTF-8'), c_arrays)
         else:
